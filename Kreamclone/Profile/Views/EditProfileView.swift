@@ -14,41 +14,12 @@ struct EditProfileView: View {
     @Binding var selectedTab: MainTab
     @State var username : String = ""
     @State var introduction: String = ""
-    @State var selectedImage: UIImage?
-    @State private var imagePickerPresented = false
     
     var body: some View {
         ScrollView {
             VStack {
-                if viewModel.user?.profileImageUrl == nil {
-                    
-                    Image("editprofile")
-                        .resizable()
-                        .frame(width: 80, height: 80)
-                        .padding(.top, 20)
-                        .onTapGesture {
-                            imagePickerPresented.toggle()
-                            }.sheet(isPresented: $imagePickerPresented) {
-                            ImagePicker(image: $selectedImage)
-                        }.onChange(of: selectedImage) { _, newValue in
-                            viewModel.updateProfileImage(image: selectedImage , type: .profile)
-                        }
-
-                }  else if let profileImageUrl = viewModel.user?.profileImageUrl {
-                    KFImage(URL(string: profileImageUrl))
-                    .resizable()
-                    .scaledToFill()
-                    .frame(width: 80, height: 80)
-                    .clipShape(Circle())
-                    .padding(.top, 20)
-                    .onTapGesture {
-                        imagePickerPresented.toggle()
-                        }.sheet(isPresented: $imagePickerPresented) {
-                        ImagePicker(image: $selectedImage)
-                    }.onChange(of: selectedImage) { _, newValue in
-                        viewModel.updateProfileImage(image: selectedImage , type: .profile)
-                    }
-            }
+                
+                ProfileEditImage(viewModel: viewModel)
                 
                 VStack(alignment: .leading){
                     Text("프로필 정보")
@@ -69,34 +40,35 @@ struct EditProfileView: View {
                         Text("로그아웃")
                             .foregroundStyle(.red)
                             .padding(.top, 20)
-                   }
+                    }
                     Spacer()
                 }.padding(.leading)
-             
+                
             }
         }.navigationTitle("프로필 관리")
-         .navigationBarTitleDisplayMode(.inline)
-         .navigationBarBackButtonHidden(true)
-             .toolbar {
-                 ToolbarItem(placement: .topBarLeading) {
-                     HStack(spacing: -2) {
-                         Button {
-                             dismiss()
-                         } label: {
-                             HStack {
-                                 Image("left")
-                                     .resizable()
-                                     .frame(width: 45, height: 45)
-                                 Spacer()
-                             }
-                           
-                     }
-                 }
-             }
-         }.onAppear {
-             username = viewModel.user?.username ?? ""
-             introduction = viewModel.user?.introduction ?? ""
-         }
+            .navigationBarTitleDisplayMode(.inline)
+            .navigationBarBackButtonHidden(true)
+            .toolbar {
+                ToolbarItem(placement: .topBarLeading) {
+                    HStack(spacing: -2) {
+                        Button {
+                            dismiss()
+                        } label: {
+                            HStack {
+                                Image("left")
+                                    .resizable()
+                                    .frame(width: 45, height: 45)
+                                Spacer()
+                            }
+                            
+                        }
+                    }
+                }
+            }.onAppear {
+                username = viewModel.user?.username ?? ""
+                introduction = viewModel.user?.introduction ?? ""
+        }
     }
 }
+
 
