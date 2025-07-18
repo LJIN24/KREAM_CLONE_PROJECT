@@ -16,7 +16,7 @@ struct ProfileEditImage: View {
     var body: some View {
         if viewModel.user?.profileImageUrl == nil {
             
-            Image("editprofile")
+            Image("defaultprofile")
                 .resizable()
                 .profileEditImageModifier(viewModel: viewModel, showpopup: $showPopup)
             
