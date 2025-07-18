@@ -14,6 +14,7 @@ struct UploadPostView: View {
     @State var title: String = ""
     @State var caption: String = ""
     @ObservedObject var viewModel: UploadPostViewModel
+    @Binding var isPresented: Bool
     var body: some View {
         VStack(alignment: .leading) {
          HStack {
@@ -49,7 +50,7 @@ struct UploadPostView: View {
                         Task {
                             await viewModel.uploadPost(type: .post, caption: caption, title: title)
                         }
-                        dismiss()
+                        isPresented = false
                     } label: {
                         Text("등록")
                             .fontWeight(.semibold)

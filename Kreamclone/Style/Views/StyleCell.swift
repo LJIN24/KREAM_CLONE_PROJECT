@@ -15,10 +15,13 @@ struct StyleCell: View {
         VStack(alignment: .leading) {
             KFImage(URL(string: post.imageUrl.first ?? ""))
                 .resizable()
+                .aspectRatio(contentMode: .fill)
                 .frame(width: 175)
-                .scaledToFill()
-                .aspectRatio(contentMode: .fit)
                 .clipShape(RoundedRectangle(cornerRadius: 8))
+                .overlay(
+                    RoundedRectangle(cornerRadius: 8, style: .continuous)
+                        .stroke(Color(.separator), lineWidth: 0.5)
+                )
               
             HStack {
                 if let ownerImageUrl = post.ownerImageUrl {

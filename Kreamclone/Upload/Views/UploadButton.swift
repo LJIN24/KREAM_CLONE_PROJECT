@@ -9,6 +9,7 @@ import SwiftUI
 import Photos
 
 struct UploadButton: View{
+    @Environment(\.dismiss) var dismiss
     @State var isPresented: Bool = false
     @Binding var isShowingBottomSheet: Bool
     @Binding var isShowingSelectImageScreen: Bool
@@ -25,9 +26,13 @@ struct UploadButton: View{
                 
                 HStack {
                     Spacer()
-                    Image("xicon")
-                        .resizable()
-                        .frame(width: 24, height: 24)
+                    Button {
+                        dismiss()
+                    } label: {
+                        Image("xicon")
+                            .resizable()
+                            .frame(width: 24, height: 24)
+                    }
                 }
             }.padding()
           

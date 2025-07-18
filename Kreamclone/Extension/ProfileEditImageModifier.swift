@@ -11,6 +11,7 @@ struct ProfileEditImageModifier: ViewModifier {
     @ObservedObject var viewModel : ProfileViewModel
     @State var selectedImage: UIImage?
     @State private var imagePickerPresented = false
+    @Binding var showPopup : Bool
  
     func body(content: Content) -> some View {
         content
@@ -36,13 +37,21 @@ struct ProfileEditImageModifier: ViewModifier {
                 ImagePicker(image: $selectedImage)
             }.onChange(of: selectedImage) { _, newValue in
                 viewModel.updateProfileImage(image: selectedImage , type: .profile)
+                                
+                DispatchQueue.main.asyncAfter(deadline: .now() + 4) {
+                    showPopup = true
+                }
+                
+                DispatchQueue.main.asyncAfter(deadline: .now() + 6) {
+                    showPopup = false
+                }
             }
     }
 }
 
 
 extension View {
-    func profileEditImageModifier(viewModel: ProfileViewModel) -> some View {
-        return ModifiedContent(content: self, modifier: ProfileEditImageModifier(viewModel: viewModel))
+    func profileEditImageModifier(viewModel: ProfileViewModel, showpopup: Binding<Bool>) -> some View {
+        return ModifiedContent(content: self, modifier: ProfileEditImageModifier(viewModel: viewModel, showPopup: showpopup))
     }
 }

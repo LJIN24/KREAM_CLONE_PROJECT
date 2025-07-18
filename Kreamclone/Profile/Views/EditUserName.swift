@@ -11,6 +11,7 @@ struct EditUserName: View {
     @ObservedObject var viewModel: ProfileViewModel
     @State var isEditing = false
     @Binding var username: String
+    @Binding var showPopup: Bool
     let title: String
     
     var body: some View {
@@ -28,7 +29,7 @@ struct EditUserName: View {
                         .overlay(RoundedRectangle(cornerRadius: 10).stroke())
                 }.tint(Color.black)
                     .sheet(isPresented: $isEditing) {
-                        EditUserInfoSheet(viewModel: viewModel, infoText: $username, placeholder: "이름을 입력하세요...", sheetTitle: title)
+                        EditUserInfoSheet(viewModel: viewModel, infoText: $username, showPopup: $showPopup, placeholder: "이름을 입력하세요...", sheetTitle: title)
                     }
 
             }

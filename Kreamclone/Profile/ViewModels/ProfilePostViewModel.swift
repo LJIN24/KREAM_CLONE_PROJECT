@@ -8,7 +8,7 @@
 import Foundation
 
 
-class PostGridViewModel:ObservableObject {
+class ProfilePostViewModel:ObservableObject {
     @Published var posts = [Post]()
     
     init() {

@@ -34,7 +34,7 @@ class ProductViewModel:ObservableObject {
                     "englishTitle": product.englishTitle,
                     "imageUrl": product.imageUrl,
                     "category": product.category,
-                    "size": product.size
+                    "size": product.size ?? [],
                 ]
                 userRef.document(currentUid).collection("saved-products").document(productId).setData(savedProduct)
             }

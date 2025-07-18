@@ -11,6 +11,7 @@ struct EditUserInfoSheet: View {
     @Environment(\.dismiss) var dismiss
     @ObservedObject var viewModel: ProfileViewModel
     @Binding var infoText: String
+    @Binding var showPopup: Bool
     let placeholder: String
     let sheetTitle: String
     
@@ -58,6 +59,10 @@ struct EditUserInfoSheet: View {
                     viewModel.updateUserIntro(intro: infoText)
                 }
                 dismiss()
+                showPopup = true
+                DispatchQueue.main.asyncAfter(deadline: .now() + 1.5) {
+                    showPopup = false
+                }
             } label: {
                 Text("저장하기")
                     .foregroundStyle(.white)

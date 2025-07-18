@@ -24,13 +24,7 @@ struct ProductCardView: View {
                     .clipShape(RoundedRectangle(cornerRadius: 10))
                 
                 VStack {
-                    HStack {
-                        Spacer()
-                        Text("거래4,127")
-                            .font(.caption2)
-                            .foregroundStyle(Color(.darkGray))
-                            .padding(6)
-                    }
+
                     Spacer()
                     HStack {
                         Spacer()
@@ -47,8 +41,10 @@ struct ProductCardView: View {
                     .font(.footnote)
                     .fontWeight(.semibold)
                 Text(product.englishTitle)
+                    .lineLimit(2)
                     .font(.caption)
                 Text(product.title.splitChar())
+                    .lineLimit(2)
                     .font(.caption)
                     .foregroundStyle(.secondary)
             }.padding(.leading, 4)
@@ -71,17 +67,14 @@ struct ProductCardView: View {
                 .padding(.leading, 4)
             
             VStack(alignment:.leading, spacing: 0) {
-                Text("\(product.price)")
+                Text("\(product.price)원")
                     .fontWeight(.semibold)
                     .padding(.bottom, 8)
                 
-                Text("관심 6,366 ﹒리뷰 78")
-                    .font(.caption2)
-                    .foregroundStyle(.secondary)
-            }    .padding(.leading, 4)
+            }.padding(.leading, 4)
          
             
-        }.frame(width: 180)
+        }.frame(width: 180, height:315)
         
     }
 }

@@ -41,10 +41,10 @@ class ShopViewModel: ObservableObject {
             self.searchProducts = documents.compactMap({ try? $0.data(as: Product.self)}).filter {
                 $0.brandName.localizedCaseInsensitiveContains(query) ||
                 $0.title.localizedCaseInsensitiveContains(query) ||
-                $0.englishTitle.localizedCaseInsensitiveContains(query) }
-            print(self.searchProducts)
+                $0.englishTitle.localizedCaseInsensitiveContains(query) ||
+                $0.subCategory?.localizedCaseInsensitiveContains(query) ?? false
+            }
         }
-        
     }
 }
 

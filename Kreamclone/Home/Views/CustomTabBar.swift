@@ -18,7 +18,7 @@ struct CustomTabBar: View {
             HStack {
                 
                 VStack {
-                    Image("house.fill")
+                    Image(selectedTab == .home ? "house.fill" : "house")
                         .resizable()
                         .frame(width: 40, height: 40)
                         .scaledToFill()
@@ -33,7 +33,7 @@ struct CustomTabBar: View {
                  
                 Spacer()
                 VStack {
-                    Image("style.fill")
+                    Image(selectedTab == .style ? "style.fill" : "style")
                         .resizable()
                         .frame(width: 50, height: 50)
                         .scaledToFill()
@@ -48,7 +48,7 @@ struct CustomTabBar: View {
                 Spacer()
                 
                 VStack(alignment:.center) {
-                    Image("shop")
+                    Image(selectedTab == .shop ? "shop.fill" : "shop")
                         .resizable()
                         .frame(width: 40, height: 40)
                         .scaledToFill()
@@ -63,7 +63,7 @@ struct CustomTabBar: View {
                 Spacer()
                 
                 VStack {
-                    Image("house.fill")
+                    Image(selectedTab == .saved ? "saved.fill" : "saved")
                         .resizable()
                         .frame(width: 40, height: 40)
                         .scaledToFill()
@@ -78,7 +78,7 @@ struct CustomTabBar: View {
                 Spacer()
                 
                 VStack {
-                    Image("profile")
+                    Image(selectedTab == .profile ? "profile.fill" : "profile")
                         .resizable()
                         .frame(width: 40, height: 40)
                         .scaledToFill()

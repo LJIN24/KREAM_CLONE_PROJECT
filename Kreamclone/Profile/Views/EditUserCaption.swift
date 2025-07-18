@@ -11,6 +11,7 @@ struct EditUserCaption: View {
     @ObservedObject var viewModel : ProfileViewModel
     @State var isEditing = false
     @Binding var introduction: String
+    @Binding var showPopup: Bool
     let placeholder: String?
     let title: String
     
@@ -39,7 +40,7 @@ struct EditUserCaption: View {
                         .overlay(RoundedRectangle(cornerRadius: 10).stroke())
                 }.tint(Color.black)
                     .sheet(isPresented: $isEditing) {
-                        EditUserInfoSheet(viewModel: viewModel, infoText: $introduction, placeholder: "소개를 입력하세요...", sheetTitle: title)
+                        EditUserInfoSheet(viewModel: viewModel, infoText: $introduction, showPopup: $showPopup, placeholder: "소개를 입력하세요...", sheetTitle: title)
                     }
 
             }

@@ -29,33 +29,18 @@ struct ProfileHeader: View {
                     .clipShape(Circle())
             }
            
-            VStack(alignment: .leading) {
+            VStack(alignment: .leading, spacing: 20) {
                 Text(userName)
-                HStack {
-                    HStack {
-                        Text("팔로워")
-                       
-                        Text("0")
-                            .fontWeight(.bold)
-                    }
-                    Divider()
-                        .frame(height: 15)
-                    HStack {
-                        Text("팔로잉")
-                    
-                        Text("0")
-                            .fontWeight(.bold)
-                    }
+                HStack{
+                    Text(viewModel.user?.introduction ?? "")
+                    Spacer()
                 }
               
             }
             Spacer()
             
         }
-        HStack{
-            Text(viewModel.user?.introduction ?? "")
-            Spacer()
-        }
+       
        
         
         HStack {

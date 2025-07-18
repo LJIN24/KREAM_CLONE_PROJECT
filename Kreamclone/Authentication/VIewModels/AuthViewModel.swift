@@ -43,6 +43,7 @@ class AuthViewModel: ObservableObject {
         
         Auth.auth().createUser(withEmail: email, password: password) { authResult, error in
             if let error = error {
+                print(error.localizedDescription)
                 return
             }
             

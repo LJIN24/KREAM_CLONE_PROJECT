@@ -23,7 +23,7 @@ struct ProfileView: View {
                     .foregroundStyle(Color.gray.opacity(0.2))
                       
                             
-                PostGridView()
+                ProfilePostView()
                     .padding(.top)
             }
         }

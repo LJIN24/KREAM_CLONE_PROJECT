@@ -6,9 +6,11 @@
 //
 
 import Foundation
+import Firebase
 
 class StyleViewModel: ObservableObject {
     @Published var posts: [Post] = []
+    private var posttListener: ListenerRegistration?
     
     init() {
         fetchPosts()
@@ -16,8 +18,7 @@ class StyleViewModel: ObservableObject {
     
     
     func fetchPosts() {
-        guard let currentUid = AuthViewModel.shared.currentUser?.uid else { return }
-        postRef.whereField("ownerUid", isNotEqualTo:currentUid).getDocuments() { snapshot, _ in
+        postRef.getDocuments() { snapshot, _ in
             guard let documents = snapshot?.documents else { return }
             self.posts = documents.compactMap({ try? $0.data(as: Post.self)})
         }

@@ -12,7 +12,7 @@ struct ShopItemtList: View {
     @ObservedObject var viewModel: ShopViewModel
     var body: some View {
         
-        LazyVGrid(columns: colums, spacing: 20) {
+        LazyVGrid(columns: colums, spacing: 10) {
             ForEach(viewModel.products) { product in
                 NavigationLink {
                     ProductDetailView(product: product)

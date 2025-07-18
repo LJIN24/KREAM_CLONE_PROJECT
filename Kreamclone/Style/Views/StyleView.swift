@@ -20,7 +20,7 @@ struct StyleView: View {
                    SearchBar(keyword: $keyword, headerIcon: "camera") {
                        isShowingBottomSheet = true
                    }.fullScreenCover(isPresented: $isShowingSelectImageScreen) {
-                           SelectUploadImageView()
+                       SelectUploadImageView(isPresented: $isShowingSelectImageScreen)
                     }
                     .sheet(isPresented: $isShowingBottomSheet) {
                            UploadSheet(isShowingBottomSheet: $isShowingBottomSheet, isShowingSelectImageScreen: $isShowingSelectImageScreen)

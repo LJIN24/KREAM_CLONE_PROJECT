@@ -18,7 +18,7 @@ struct Product: Identifiable, Decodable {
     let title:String
     let category: String
     let subCategory: String?
-    let size: [String]
+    let size: [String]?
     
     var isSaved: Bool? = false
 }
