@@ -13,6 +13,7 @@ struct StyleDetailView: View {
     @StateObject var commentViewModel: CommentViewModel
     @Environment(\.dismiss) var dismiss
     @State var currentIndex: Int = 0
+    private let ID = UUID().uuidString
     let post: Post
     
     init(post: Post) {
@@ -36,94 +37,107 @@ struct StyleDetailView: View {
     }
 
     var body: some View {
-        ScrollView {
-            
-            VStack {
-                HStack {
-                    KFImage(URL(string: post.ownerImageUrl ?? ""))
-                        .resizable()
-                        .frame(width: 44, height: 44)
-                        .clipShape(Circle())
-                    VStack(alignment: .leading, spacing: 4) {
-                        Text(post.ownerUsername)
-                            .fontWeight(.semibold)
-                        Text("\(timestampString)")
-                            .foregroundStyle(.secondary)
-                    }.font(.caption)
-                    
-                    Spacer()
-                    
-                }.padding(.leading)
-                TabView(selection: $currentIndex){
-                    ForEach(0..<post.imageUrl.count, id: \.self) { index in
-                        KFImage(URL(string: post.imageUrl[index]))
+        ScrollViewReader { proxy in
+            ScrollView(showsIndicators: false) {
+                
+                VStack {
+                    HStack {
+                        KFImage(URL(string: post.ownerImageUrl ?? ""))
                             .resizable()
-                            .frame(width: UIScreen.main.bounds.width, height: 500)
-                            .scaledToFill()
-                            .clipped()
-                            .tag(index)
-                    }
-                }
-                .frame(height: 500)
-                .tabViewStyle(.page(indexDisplayMode: .never))
-                
-                PostPageControl(pageCount: post.imageUrl.count, currentPage: $currentIndex)
-                
-                HStack(spacing: 20) {
-                    
-                    Text(post.caption)
-                        .font(.system(size: 16))
-                        .fontWeight(.semibold)
-                        .padding(.leading, 8)
-                    
-                    Spacer()
-                    Button(action: {
-                        didLike ? viewModel.unlike() : viewModel.like()
-                    }) {
-                        HStack(spacing: 4) {
-                            Image(systemName: didLike ? "heart.fill" : "heart")
-                                .foregroundStyle(didLike ? Color(#colorLiteral(red: 1, green: 0, blue: 0.5987907052, alpha: 1)) : .black)
-                                .font(.system(size: 24))
-                            Text("\(likes)")
+                            .frame(width: 44, height: 44)
+                            .clipShape(Circle())
+                        VStack(alignment: .leading, spacing: 4) {
+                            Text(post.ownerUsername)
+                                .fontWeight(.semibold)
+                            Text("\(timestampString)")
+                                .foregroundStyle(.secondary)
+                        }.font(.caption)
+                        
+                        Spacer()
+                        
+                    }.padding(.leading)
+                    TabView(selection: $currentIndex){
+                        ForEach(0..<post.imageUrl.count, id: \.self) { index in
+                            KFImage(URL(string: post.imageUrl[index]))
+                                .resizable()
+                                .frame(width: UIScreen.main.bounds.width, height: 500)
+                                .scaledToFill()
+                                .clipped()
+                                .tag(index)
                         }
                     }
+                    .frame(height: 500)
+                    .tabViewStyle(.page(indexDisplayMode: .never))
                     
+                    PostPageControl(pageCount: post.imageUrl.count, currentPage: $currentIndex)
                     
-                }
-                .foregroundStyle(.black)
-                .padding(.horizontal, 6)
-            
-                Divider()
-                
-                CommentsView(viewModel: commentViewModel)
-                
-            }.padding(.top)
-            
-        }.safeAreaInset(edge: .bottom) {
-            CommentBarView(viewModel: commentViewModel)
-                .background(Color.white)
-        }
-        .ignoresSafeArea(.container, edges: .bottom)
-        .scrollDismissesKeyboard(.interactively)
-        .navigationTitle("게시물")
-        .navigationBarTitleDisplayMode(.inline)
-        .navigationBarBackButtonHidden(true)
-        .toolbar {
-            ToolbarItem(placement: .topBarLeading) {
-                HStack {
-                    Button {
-                        dismiss()
-                    } label: {
-                        HStack {
-                            Image("left")
-                                .resizable()
-                                .frame(width: 45, height: 45)
-                            Spacer()
+                    HStack(spacing: 20) {
+                        
+                        Text(post.caption)
+                            .font(.system(size: 16))
+                            .fontWeight(.semibold)
+                            .padding(.leading, 8)
+                        
+                        Spacer()
+                        Button(action: {
+                            didLike ? viewModel.unlike() : viewModel.like()
+                        }) {
+                            HStack(spacing: 4) {
+                                Image(systemName: didLike ? "heart.fill" : "heart")
+                                    .foregroundStyle(didLike ? Color(#colorLiteral(red: 1, green: 0, blue: 0.5987907052, alpha: 1)) : .black)
+                                    .font(.system(size: 24))
+                                Text("\(likes)")
+                            }
                         }
                         
+                        
+                    }
+                    .foregroundStyle(.black)
+                    .padding(.horizontal, 6)
+                
+                    Divider()
+                    
+                    CommentsView(viewModel: commentViewModel)
+                    
+                }.padding(.top)
+                
+            }
+            .onChange(of: commentViewModel.comments) { oldComments, newComments in
+                guard newComments.count > oldComments.count else { return }
+                guard let lastId = newComments.last?.id else { return }
+                DispatchQueue.main.async {
+                         withAnimation {
+                             proxy.scrollTo(lastId, anchor: .bottom)
+                        }
+                }
+            }
+            .safeAreaInset(edge: .bottom) {
+                CommentBarView(viewModel: commentViewModel)
+                    .background(Color.white)
+            }
+            .ignoresSafeArea(.container, edges: .bottom)
+            .scrollDismissesKeyboard(.interactively)
+            .navigationTitle("게시물")
+            .navigationBarTitleDisplayMode(.inline)
+            .navigationBarBackButtonHidden(true)
+            .toolbar {
+                ToolbarItem(placement: .topBarLeading) {
+                    HStack {
+                        Button {
+                            dismiss()
+                        } label: {
+                            HStack {
+                                Image("left")
+                                    .resizable()
+                                    .frame(width: 45, height: 45)
+                                Spacer()
+                            }
+                            
+                        }
                     }
                 }
             }
+
         }
     }
 }

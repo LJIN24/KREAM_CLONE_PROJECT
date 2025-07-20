@@ -16,6 +16,7 @@ struct CommentsView: View {
                     CommentsCell(comment: comment)
                         .padding(.horizontal)
                         .padding(.vertical, 8)
+                        .id(comment.id)
                 }
         }
     }
