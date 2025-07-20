@@ -10,6 +10,7 @@ import SwiftUI
 struct CommentBarView: View {
     @ObservedObject var viewModel: CommentViewModel
     @State private var commentText: String = ""
+    @FocusState private var isFocused: Bool
     
     private let actions: [String] = [
         ("좋아요 ❤️"),
@@ -47,16 +48,11 @@ struct CommentBarView: View {
                     .scaledToFill()
                     .frame(width: 32, height: 32)
                     .clipShape(Circle())
-
-                TextField("댓글을 남기세요...", text: $commentText)
-                    .padding(12)
-                    .font(.system(size: 14))
-                    .background(Color.gray.opacity(0.1))
-                    .clipShape(RoundedRectangle(cornerRadius: 12))
-                    .onSubmit {
-                        viewModel.uploadComments(comment: commentText)
-                        commentText = ""
-                    }
+                CommentTextField(text: $commentText) { comment in
+                    viewModel.uploadComments(comment: comment)
+                }
+                   
+                 
             }
             .padding(.top, 8)
             .padding(.bottom, 25)
