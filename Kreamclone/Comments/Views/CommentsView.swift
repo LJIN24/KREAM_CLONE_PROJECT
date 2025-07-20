@@ -11,14 +11,12 @@ struct CommentsView: View {
    @ObservedObject var viewModel: CommentViewModel
     
     var body: some View {
-        ScrollView {
             VStack {
-                ForEach(viewModel.comments.reversed()) { comment in
+                ForEach(viewModel.comments) { comment in
                     CommentsCell(comment: comment)
                         .padding(.horizontal)
                         .padding(.vertical, 8)
                 }
-            }
         }
     }
 }
