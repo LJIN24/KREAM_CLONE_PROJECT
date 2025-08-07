@@ -5,8 +5,6 @@
 
 - **Framework**
   - SwiftUI
-  - PhotosUI
-  - Swift Concurrency (async/await, Task)
     
 - **Architecture**
   - MVVM
